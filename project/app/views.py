@@ -1,0 +1,70 @@
+from django.shortcuts import render
+from .models import Register,Login
+# Create your views here.
+def home(request):
+    return render(request,'home.html')
+
+def about(request):
+    return render(request,'about.html')
+
+def register(request):
+    if request.method=="POST":
+        name=request.POST.get("name")
+        email=request.POST.get("email")
+        contact=request.POST.get("number")
+        password=request.POST.get("password")
+        confirmpassword=request.POST.get('confirmpassword')
+        DOB=request.POST.get("date")
+        gender=request.POST.get("gender")
+        education=request.POST.get("education")
+        profile=request.POST.get("profile")
+        resume=request.POST.get("resume")
+        user=Register.objects.filter(email=email)
+        if user:
+            eml="email already exists"
+            return render(request,'register.html')
+        else:
+            if confirmpassword==password:
+                Register.objects.create(name=name,email=email,contact=contact,password=password,confirmpassword=confirmpassword,DOB=DOB,gender=gender,education=education,profile=profile,resume=resume)
+                return render(request,'login.html')
+            else:
+                msg="password unmatched"
+                return render(request,'register.html')
+            
+    else:
+        return render(request,'register.html')
+    
+
+def login(request):
+    return render(request,'login.html')
+
+def logindata(request):
+    print(request.POST)
+    if request.method=="POST":
+        email=request.POST.get("email")
+        password=request.POST.get("password")
+        print(email,password)
+        user=Register.objects.filter(email=email)
+        if user:
+            userData=Register.objects.get(email=email)
+            pass1=userData.password
+            if password==pass1:
+                data={'id':userData.id,'name':userData.name,'email':userData.email,'contact':userData.contact,'password':userData.password,'confirmpassword':userData.confirmpassword,"dob":userData.DOB,'gender':userData.gender,'education':userData.education,'profile':userData.profile,'resume':userData.resume}
+                return render(request,'dashboard.html',{'data':data})
+            else:
+                return render(request,'login.html')
+        else:
+            return render(request,'register.html')
+    else:
+        return render(request,'register.html')
+        
+def dashboard(request):
+    return render(request,'dashboard.html')
+
+def query(request,pk):
+    userdata=Register.objects.get(id=pk)
+    print(userdata)
+    data={'id':userdata.id,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+    return render(request,'dashboard.html',{'data':data,'query':pk})
+
+    

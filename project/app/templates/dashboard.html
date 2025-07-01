@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+{{data}}
+<br>
+
+<a href="{% url 'query' pk=data.id %}">Query-Form</a>
+
+{% if query %}
+
+Name: <input type="text" name="name" value="{{data.name}}" id="">
+Email: <input type="email" name="email" value={{data.email}} id="">
+
+{% endif %}
+<a href="">Show All Query</a>
+
+
+{% endblock %}

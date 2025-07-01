@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label>name:</label>
+    <input type="text" name="name" />
+    <br/>
+    <label>email:</label>
+    <input type="email" name="email"/>
+    <br/>
+    <label>contact:</label>
+    <input type="number" name="number"/>
+    <br/>
+    <label>password:</label>
+    <input type="text" name="password"/>
+    <br/>
+    <label>confirmpassword:</label>
+    <input type="text" name="confirmpassword"/>
+    <br/>
+    <label>DOB:</label>
+    <input type="date" name="date"/>
+    <br/>
+    <label>gender:</label>
+    <select name="gender">
+        <option>select-gender</option>
+        <option value="male">male</option>
+        <option value="female">female</option>
+    </select>
+    <br/>
+    <label>education:</label>
+    <select name="education">
+        <option>option</option>
+        <option value="one">B.Tech</option>
+        <option value="two">M.Tech</option>
+        <option value="three">phd</option>
+    </select>
+    <br/>
+    <label>profile:</label>
+    <input type="file" name="profile"/>
+    <br/>
+    <label>resume:</label>
+    <input type="file" name="resume"/>
+    <br/>
+    <label>Submit:</label>
+    <input type="submit" name="submit"/>
+</form>
+{% endblock %}
