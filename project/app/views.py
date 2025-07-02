@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Register,Login
+from .models import Register,Login,Query
 # Create your views here.
 def home(request):
     return render(request,'home.html')
@@ -43,7 +43,6 @@ def logindata(request):
     if request.method=="POST":
         email=request.POST.get("email")
         password=request.POST.get("password")
-        print(email,password)
         user=Register.objects.filter(email=email)
         if user:
             userData=Register.objects.get(email=email)
@@ -63,8 +62,43 @@ def dashboard(request):
 
 def query(request,pk):
     userdata=Register.objects.get(id=pk)
-    print(userdata)
-    data={'id':userdata.id,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+    data={'id':userdata.pk,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
     return render(request,'dashboard.html',{'data':data,'query':pk})
 
+def querydata(req,pk):
+    if req.method=="POST":
+        name = req.POST.get('name')
+        email = req.POST.get('email')
+        query = req.POST.get('query')
+        Query.objects.create(name=name,email=email,query=query)
+        userdata=Register.objects.get(email=email)
+        data={'id':userdata.pk,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+        return render(req,'dashboard.html',{'data':data})
+        
+
+def allquery(request,pk):
+    userdata=Register.objects.get(id=pk)
+    data={'id':userdata.pk,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+    email=userdata.email
+    aquery=Query.objects.filter(email=email)
+    return render(request,'dashboard.html',{'data':data,'aquery':aquery})
+
+# def edit(req,id,pk):
+#     editdata=Query.objects.get(id=id)
+#     userdata=Register.objects.get(email=editdata.email)
+#     data={'id':userdata.pk,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+#     return render(req,'dashboard.html',{'editdata':editdata,'data':data})
     
+# def updatedata(req,id,pk):
+#     if req.method=="POST":
+#         name=req.POST.get('name')
+#         email=req.POST.get("email")
+#         query=req.POST.get("query")
+#         olddata=Query.objects.get(id=id)
+#         olddata.query=query
+#         olddata.save()
+#         userdata=Register.objects.get(email=email)
+#         aquery=Query.objects.filter(email=email)
+#         data={'id':userdata.id,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+#         return render(req,'dashboard.html',{'data':data,'aquery':aquery})
+        

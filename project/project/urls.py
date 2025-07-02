@@ -27,6 +27,11 @@ urlpatterns = [
     path('logindata/',views.logindata,name='logindata'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('query/<int:pk>/',views.query,name='query'),
+    path('querydata/<int:pk>/',views.querydata,name='querydata'),
+    path('allquery/<int:pk>/',views.allquery,name="allquery"),
+    # path('edit/<int:id>/<int:pk>/',views.edit,name='edit'),
+    # path('updatedata/<int:x>/<int:pk>/',views.updatedata,name='updatedata'),
+ 
    
 
     

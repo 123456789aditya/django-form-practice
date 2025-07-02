@@ -5,13 +5,53 @@
 
 <a href="{% url 'query' pk=data.id %}">Query-Form</a>
 
+
 {% if query %}
 
-Name: <input type="text" name="name" value="{{data.name}}" id="">
-Email: <input type="email" name="email" value={{data.email}} id="">
-
+    <form action="{% url 'querydata' pk=data.id %}" method="post">
+    {% csrf_token %}
+        Name: <input type="text" name="name" value="{{data.name}}" id=""><br /> <br />
+        Email: <input type="email" name="email" value="{{data.email}}" id=""> <br /> <br />
+        Query: <input type="text" name="query" id=""> <br /> <br />
+        <input type="submit" value="Query">
+    </form>
+    
 {% endif %}
-<a href="">Show All Query</a>
 
+{% comment %} 
+{% if 'editdata' %}
+    <form action="{% url 'updatedata' x=editdata.id pk=data.id %}" method="post">
+        {% csrf_token %}
+        Name: <input type="text" name="name" value="{{editdata.name}}" id="" readonly><br /> <br />
+        Email: <input type="email" name="email" value="{{editdata.email}}" id="" readonly> <br /> <br />
+        Query: <input type="text" name="query" value="{{editdata.query}}" id=""> <br /> <br />
+        <input type="submit" value="Update">
+    </form>
+{% endif %} {% endcomment %}
 
-{% endblock %}
+<a href="{% url 'allquery' pk=data.id %}">Show All Query</a>
+{% if aquery %}
+<table>
+    <tr>
+        <th>Sno</th>
+        <th>Name:</th>
+        <th>email:</th>
+        <th>Query:</th>
+        <th>Edit:</th>
+        <th>Delete:</th>
+    </tr>
+    {% for i in aquery %}
+    <tr>
+        <!-- <td>{{forloop.counter}}</td> -->
+        <td>{{i.id}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.email}}</td>
+        <td>{{i.query}}</td>
+        {% comment %} <td><a href="{% url 'edit' id=i.id pk=data.id %}">edit</a></td> {% endcomment %}<td>edit</td>
+        <td><a href="">delete</a></td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endif %} 
+{% endblock %} 
