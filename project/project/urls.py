@@ -31,6 +31,7 @@ urlpatterns = [
     path('allquery/<int:pk>/',views.allquery,name="allquery"),
     # path('edit/<int:id>/<int:pk>/',views.edit,name='edit'),
     # path('updatedata/<int:x>/<int:pk>/',views.updatedata,name='updatedata'),
+    path('search/<int:pk>/',views.search,name='search')
  
    
 

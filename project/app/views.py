@@ -21,7 +21,7 @@ def register(request):
         resume=request.POST.get("resume")
         user=Register.objects.filter(email=email)
         if user:
-            eml="email already exists"
+            # eml="email already exists"
             return render(request,'register.html')
         else:
             if confirmpassword==password:
@@ -39,7 +39,6 @@ def login(request):
     return render(request,'login.html')
 
 def logindata(request):
-    print(request.POST)
     if request.method=="POST":
         email=request.POST.get("email")
         password=request.POST.get("password")
@@ -101,4 +100,14 @@ def allquery(request,pk):
 #         aquery=Query.objects.filter(email=email)
 #         data={'id':userdata.id,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
 #         return render(req,'dashboard.html',{'data':data,'aquery':aquery})
-        
+from django.db.models import Q        
+def search(request,pk):
+    userdata=Register.objects.get(id=pk)
+    data={'id':userdata.pk,'name':userdata.name,'email':userdata.email,'contact':userdata.contact,'dob':userdata.DOB,'education':userdata.education,'gender':userdata.gender,'password':userdata.password,'image':userdata.profile,'file':userdata.resume} 
+    sdata=request.POST.get('search')
+    aquery=Query.objects.filter(Q(email=userdata.email) & Q(query__icontains=sdata))
+    return render(request,'dashboard.html',{'aquery':aquery, 'data':data})
+
+
+    
+    

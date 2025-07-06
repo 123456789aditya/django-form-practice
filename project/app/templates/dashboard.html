@@ -51,7 +51,13 @@
         <td><a href="">delete</a></td>
     </tr>
     {% endfor %}
-
 </table>
 {% endif %} 
+
+
+<form action="{% url 'search' pk=data.id %}" method="post">
+    {% csrf_token %}
+    <input type="search" name="search">
+    <input type="submit" value="Search">
+</form>
 {% endblock %} 
